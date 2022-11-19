@@ -3,6 +3,7 @@ import { getUnixTimestamp } from "../utils";
 
 export const initialGameState: GameState = {
     lastGameTimestamp: getUnixTimestamp(),
+    gameStartTimestamp: null,
     isGameStarted: false,
     isGameFinished: false,
     lastWinnersId: null,
