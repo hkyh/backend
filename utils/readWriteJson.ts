@@ -9,7 +9,7 @@ export const readPlayer = (player: PlayerType) => {
 
 export const writePlayer = (player: PlayerType, playerState: PlayerState) => {
   const playerFile = JSON.stringify(playerState, null, 2);
-  writeFileSync(`./jsonBase/${player}`, playerFile);
+  writeFileSync(`./jsonBase/${player}.json`, playerFile);
 };
 
 export const readGameState = () => {
