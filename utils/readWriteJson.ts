@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync } from "fs";
 import { GameState, PlayerState, PlayerType } from "../types";
 
-export const readPlayer = (player: PlayerType) => {
+export const readPlayer = (player: PlayerType): PlayerState => {
   const playerFile = readFileSync(`./jsonBase/${player}`);
   const parsedPlayer = JSON.parse(String(playerFile));
   return parsedPlayer;
@@ -12,7 +12,7 @@ export const writePlayer = (player: PlayerType, playerState: PlayerState) => {
   writeFileSync(`./jsonBase/${player}.json`, playerFile);
 };
 
-export const readGameState = () => {
+export const readGameState = (): GameState => {
   const gameStateFile = readFileSync("./jsonBase/gameState.json");
   const parsedGameState = JSON.parse(String(gameStateFile));
   return parsedGameState;
