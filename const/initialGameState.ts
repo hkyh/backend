@@ -6,7 +6,9 @@ export const initialGameState: GameState = {
     isGameStarted: false,
     isGameFinished: false,
     lastWinnersId: "",
-    currentPlayerA: "",
-    currentPlayerB: "",
-    nextMove: "PlayerA"
+    playerAId: null,
+    playerBId: null,
+    playerALocation: null,
+    playerBLocation: null,
+    nextMove: "PlayerA",
 };
