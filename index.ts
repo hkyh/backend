@@ -1,25 +1,13 @@
 import express from "express";
-import bodyParser from "body-parser";
 import { initGame } from "./game";
-import { readGameState } from "./utils";
+import { gameRouter } from "./routes";
 
 const app = express();
 initGame();
 
-app.use(bodyParser.json());
+app.use(express.json());
 
-app.get("/game/gameState", (req, res) => {
-    try {
-        const currentGameState = readGameState();
-        return res.status(200).send(currentGameState);
-    } catch(error) {
-        console.error("Game state route error", error);
-        return res.status(500).json({
-            error: true,
-            message: "Game State not error"
-        });
-    }
-});
+app.use('/game', gameRouter);
 
 const PORT = 3000;
 
