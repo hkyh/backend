@@ -1,1 +1,1 @@
-export type PlayerTurn = "PlayerA" | "PlayerB";
+export type PlayerType = "playerA" | "playerB";

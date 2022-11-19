@@ -1,6 +1,7 @@
 import { Router } from "express";
-import { showGameState } from "../controllers";
+import { requestPlayerControl, showGameState } from "../controllers";
 
 export const gameRouter = Router();
 
 gameRouter.get("/state", showGameState);
+gameRouter.post("/requestPlayer", requestPlayerControl);
