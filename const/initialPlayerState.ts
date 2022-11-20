@@ -1,4 +1,5 @@
 import { PlayerState } from "../types";
+import { kmsLeft } from "./baseKMs";
 
 export const initialPlayerState: PlayerState = {
   stamina: 100,
@@ -9,5 +10,6 @@ export const initialPlayerState: PlayerState = {
   position: {
     x: 0,
     y: 0,
+    kmsLeft
   },
 };
