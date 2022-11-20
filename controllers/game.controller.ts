@@ -9,7 +9,8 @@ import {
 import { Request, Response } from "express";
 import { baseMultiplier, initialPlayerState } from "../const";
 import { makeMove } from "../game/makeMove";
-import { GameService } from "../services";
+import { randomiseRestingPoints } from "../services";
+import { initGame } from "../game/initGame";
 
 export const showGameState = (req: Request, res: Response) => {
   try {
@@ -95,18 +96,40 @@ export const movePlayer = (req: Request, res: Response) => {
         .status(400)
         .json({ error: true, message: "The Giraffe is dead" });
     }
+
+    if(gameState.nextMove !== playerType) {
+      return res
+        .status(400)
+        .json({ error: true, message: "Not your turn" });
+    }
+    const isRestingPoint = randomiseRestingPoints(currentPlayer.oasisScouting, currentPlayer.hideoutScouting);
     const kmPassed = makeMove(currentPlayer.stamina, currentPlayer.hydration, currentPlayer.hunger);
     const kmsLeft = currentPlayer.position.kmsLeft - (kmPassed + (risk * baseMultiplier));
-    currentPlayer.stamina = currentPlayer.stamina - (10 * baseMultiplier) + (hideout * baseMultiplier);
-    currentPlayer.hydration = currentPlayer.hydration - (10 * baseMultiplier) + (oasis * baseMultiplier);
-    currentPlayer.hunger = currentPlayer.hunger + (10 * baseMultiplier) + (hideout * baseMultiplier);
+    currentPlayer.stamina = currentPlayer.stamina - ((10 * baseMultiplier) + (hideout * baseMultiplier));
+    currentPlayer.hydration = currentPlayer.hydration - ((10 * baseMultiplier) + (oasis * baseMultiplier));
+    currentPlayer.hunger = currentPlayer.hunger + ((10 * baseMultiplier) + (hideout * baseMultiplier));
+    if(isRestingPoint.includes("Oasis")) {
+      currentPlayer.hydration = 100;
+      currentPlayer.hunger = 0;
+    }
+    if(isRestingPoint.includes("Hideout")) {
+      currentPlayer.stamina = 100;
+      currentPlayer.hunger = 0
+    }
     currentPlayer.position.kmsLeft = kmsLeft;
     gameState.nextMove = playerType === "playerA" ? "playerB" : "playerA";
     /* @ts-ignore */
     gameState[`${playerType}Location`] = currentPlayer.position;
+    if(currentPlayer.position.kmsLeft <= 0) {
+      gameState.lastWinnersId = playerId;
+      gameState.isGameFinished = true;
+      gameState.lastGameTimestamp = getUnixTimestamp();
+      writeGameState(gameState);
+      return res.status(200).json({ Message: `Game is finished. ${playerType} won!` });
+    }
     writePlayer(playerType, currentPlayer);
     writeGameState(gameState);
-    return res.status(200).json({ playerMoved: currentPlayer.position });
+    return res.status(200).json({ playerKMLeft: currentPlayer.position.kmsLeft, playerStamina: currentPlayer.stamina, playerHydration: currentPlayer.hydration, playerHunger: currentPlayer.hunger });
   } catch (error) {
     console.error("Player move error", error);
     return res.status(500).json({
@@ -114,17 +137,25 @@ export const movePlayer = (req: Request, res: Response) => {
       message: "Player move error",
     });
   }
-}
+};
 
-export const renderTour = (req: Request, res: Response) => {
-  const { playerType } = req.body;
-  const gameState = readGameState();
-  /* @ts-ignore */
-  if (!playerType) {
-    return res
-      .status(400)
-      .json({ error: true, message: `${playerType} already taken` });
+export const restartGame = (req: Request, res: Response) => {
+  try {
+    const gameState = readGameState();
+    if (!gameState.isGameFinished) {
+      return res
+        .status(400)
+        .json({ error: true, message: "Game is not finished yet" });
+    }
+    initGame();
+    return res.status(200).json({
+        message: "Game has been restarted",
+      });
+  } catch (error) {
+    console.error("Start game error", error);
+    return res.status(500).json({
+      error: true,
+      message: "Restart game error",
+    });
   }
-
-  return res.status(200).json(GameService.renderTourForPlayer(playerType));
 };

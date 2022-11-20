@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { movePlayer, requestPlayerControl, showGameState, startGame, renderTour } from "../controllers";
+import { movePlayer, requestPlayerControl, showGameState, startGame } from "../controllers";
 
 export const gameRouter = Router();
 
 gameRouter.get("/state", showGameState);
 gameRouter.post("/requestPlayer", requestPlayerControl);
-gameRouter.post("/startGame", startGame);
+gameRouter.post("/start", startGame);
 gameRouter.post("/movePlayer", movePlayer);
-gameRouter.post("/renderTour", renderTour);
+gameRouter.post("/restart", startGame);
