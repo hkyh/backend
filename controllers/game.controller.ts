@@ -159,3 +159,18 @@ export const restartGame = (req: Request, res: Response) => {
     });
   }
 };
+
+export const hardrestartGame = (req: Request, res: Response) => {
+  try {
+    initGame();
+    return res.status(200).json({
+        message: "Game has been restarted",
+      });
+  } catch (error) {
+    console.error("Start game error", error);
+    return res.status(500).json({
+      error: true,
+      message: "Restart game error",
+    });
+  }
+};
