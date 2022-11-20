@@ -1,6 +1,7 @@
 export type PlayerMapPosition = {
   x: number;
   y: number;
+  kmsLeft: number;
 };
 
 export type PlayerState = {
