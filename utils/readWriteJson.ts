@@ -14,8 +14,7 @@ export const writePlayer = (player: PlayerType, playerState: PlayerState) => {
 
 export const readGameState = (): GameState => {
   const gameStateFile = readFileSync("./jsonBase/gameState.json");
-  const str = String(gameStateFile);
-  const parsedGameState = JSON.parse(str);
+  const parsedGameState = JSON.parse(String(gameStateFile));
   return parsedGameState;
 };
 
