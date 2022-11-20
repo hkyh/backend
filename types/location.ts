@@ -1,0 +1,1 @@
+export type Location = "Oasis" | "Hideout" | "On the Way";

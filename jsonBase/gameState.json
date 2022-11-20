@@ -1,2 +1,14 @@
 {
+  "lastGameTimestamp": 1668916706,
+  "gameStartTimestamp": null,
+  "isGameStarted": false,
+  "isGameFinished": false,
+  "lastWinnersId": null,
+  "playerA": null,
+  "playerB": null,
+  "playerALocation": null,
+  "playerBLocation": null,
+  "playerAObjects": [],
+  "playerBObjects": [],
+  "nextMove": "playerA"
 }

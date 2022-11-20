@@ -1,4 +1,4 @@
-import { GameState } from "../types";
+import { GameState, Location } from "../types";
 import { getUnixTimestamp } from "../utils";
 
 export const initialGameState: GameState = {
@@ -11,5 +11,7 @@ export const initialGameState: GameState = {
     playerB: null,
     playerALocation: null,
     playerBLocation: null,
+    playerAObjects: [] as Location[],
+    playerBObjects: [] as Location[],
     nextMove: "playerA",
 };

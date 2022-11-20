@@ -10,5 +10,7 @@ export type PlayerState = {
   hydration: number;
   isHideout: boolean;
   isOasis: boolean;
-  position: PlayerMapPosition
+  position: PlayerMapPosition;
+  oasisScouting: number;
+  hideoutScouting: number;
 };
