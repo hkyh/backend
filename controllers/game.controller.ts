@@ -9,6 +9,7 @@ import {
 import { Request, Response } from "express";
 import { baseMultiplier, initialPlayerState } from "../const";
 import { makeMove } from "../game/makeMove";
+import { GameService } from "../services";
 
 export const showGameState = (req: Request, res: Response) => {
   try {
@@ -62,9 +63,9 @@ export const startGame = (req: Request, res: Response) => {
     gameState.gameStartTimestamp = getUnixTimestamp();
     writeGameState(gameState);
     return res.status(200).json({
-      message: "Game has started",
-      gameStartTimestamp: gameState.gameStartTimestamp,
-    });
+        message: "Game has started",
+        gameStartTimestamp: gameState.gameStartTimestamp,
+      });
   } catch (error) {
     console.error("Start game error", error);
     return res.status(500).json({
@@ -73,6 +74,7 @@ export const startGame = (req: Request, res: Response) => {
     });
   }
 };
+
 
 export const movePlayer = (req: Request, res: Response) => {
   try {
@@ -112,4 +114,17 @@ export const movePlayer = (req: Request, res: Response) => {
       message: "Player move error",
     });
   }
+}
+
+export const renderTour = (req: Request, res: Response) => {
+  const { playerType } = req.body;
+  const gameState = readGameState();
+  /* @ts-ignore */
+  if (!playerType) {
+    return res
+      .status(400)
+      .json({ error: true, message: `${playerType} already taken` });
+  }
+
+  return res.status(200).json(GameService.renderTourForPlayer(playerType));
 };

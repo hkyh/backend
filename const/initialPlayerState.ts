@@ -12,4 +12,6 @@ export const initialPlayerState: PlayerState = {
     y: 0,
     kmsLeft
   },
+  oasisScouting: 0,
+  hideoutScouting: 0,
 };
