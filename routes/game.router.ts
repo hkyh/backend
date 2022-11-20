@@ -5,5 +5,6 @@ export const gameRouter = Router();
 
 gameRouter.get("/state", showGameState);
 gameRouter.post("/requestPlayer", requestPlayerControl);
-gameRouter.post("/startGame", startGame);
+gameRouter.post("/start", startGame);
 gameRouter.post("/movePlayer", movePlayer);
+gameRouter.post("/restart", startGame);

@@ -1,6 +1,8 @@
-import { initialGameState } from "../const";
-import { writeGameState } from "../utils";
+import { initialGameState, initialPlayerState } from "../const";
+import { writeGameState, writePlayer } from "../utils";
 
 export const initGame = () => {
     writeGameState(initialGameState);
-}
+    writePlayer('playerA', initialPlayerState);
+    writePlayer('playerB', initialPlayerState);
+};
