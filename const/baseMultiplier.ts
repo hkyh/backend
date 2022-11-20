@@ -1,1 +1,1 @@
-export const baseMultiplier = 0.1;
+export const baseMultiplier = 1;

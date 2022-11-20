@@ -98,9 +98,9 @@ export const movePlayer = (req: Request, res: Response) => {
     const isRestingPoint = randomiseRestingPoints(currentPlayer.oasisScouting, currentPlayer.hideoutScouting);
     const kmPassed = makeMove(currentPlayer.stamina, currentPlayer.hydration, currentPlayer.hunger);
     const kmsLeft = currentPlayer.position.kmsLeft - (kmPassed + (risk * baseMultiplier));
-    currentPlayer.stamina = currentPlayer.stamina - (10 * baseMultiplier) + (hideout * baseMultiplier);
-    currentPlayer.hydration = currentPlayer.hydration - (10 * baseMultiplier) + (oasis * baseMultiplier);
-    currentPlayer.hunger = currentPlayer.hunger + (10 * baseMultiplier) + (hideout * baseMultiplier);
+    currentPlayer.stamina = currentPlayer.stamina - ((10 * baseMultiplier) + (hideout * baseMultiplier));
+    currentPlayer.hydration = currentPlayer.hydration - ((10 * baseMultiplier) + (oasis * baseMultiplier));
+    currentPlayer.hunger = currentPlayer.hunger + ((10 * baseMultiplier) + (hideout * baseMultiplier));
     if(isRestingPoint.includes("Oasis")) {
       currentPlayer.hydration = 100;
     }
@@ -122,16 +122,3 @@ export const movePlayer = (req: Request, res: Response) => {
     });
   }
 }
-
-// export const renderTour = (req: Request, res: Response) => {
-//   const { playerType } = req.body;
-//   const gameState = readGameState();
-//   /* @ts-ignore */
-//   if (!playerType) {
-//     return res
-//       .status(400)
-//       .json({ error: true, message: `${playerType} already taken` });
-//   }
-
-//   return res.status(200).json(GameService.renderTourForPlayer(playerType));
-// };
