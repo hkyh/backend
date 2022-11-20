@@ -1,6 +1,9 @@
 import express from "express";
+import dotenv from "dotenv";
 import { initGame } from "./game";
 import { gameRouter } from "./routes";
+
+dotenv.config();
 
 const app = express();
 initGame();
